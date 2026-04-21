@@ -20,7 +20,7 @@ class handler(BaseHTTPRequestHandler):
             self._respond(400, {'error': 'Invalid JSON'})
             return
 
-        api_key = os.environ.get('ANTHROPIC_API_KEY')
+        api_key = os.environ.get('ASSISTANT_ID')
         if not api_key:
             self._respond(500, {'error': 'API key not configured'})
             return
