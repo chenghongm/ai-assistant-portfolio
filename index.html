@@ -123,6 +123,10 @@
       gap: 6px;
     }
 
+    .status-stack {
+      min-width: 0;
+    }
+
     .status-dot {
       width: 6px;
       height: 6px;
@@ -376,7 +380,7 @@
     /* ABOUT */
     #about {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 2fr 1fr;
       gap: 0;
       padding: 0;
     }
@@ -389,6 +393,11 @@
     .about-right {
       padding: 100px 60px;
       background: var(--bg2);
+      position: relative;
+      z-index: 1;
+      transform: translate(18px, -18px);
+      box-shadow: -18px 18px 0 rgba(0, 0, 0, 0.18), 0 28px 60px rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .about-body {
@@ -602,11 +611,42 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
       background: var(--border);
+      position: relative;
+      z-index: 1;
+      transform: translate(18px, -18px);
+      box-shadow: -18px 18px 0 rgba(0, 0, 0, 0.18), 0 28px 60px rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .process-card {
       background: var(--bg2);
       padding: 48px 40px;
+      position: relative;
+      z-index: 0;
+      transform-origin: center center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+      will-change: transform;
+      border: 1px solid transparent;
+    }
+
+    .process-card:hover {
+      transform: scale(1.5);
+      z-index: 3;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      background: #1d2228;
+      border-color: rgba(245, 168, 0, 0.18);
+    }
+
+    .process-card:hover .process-card-num {
+      color: var(--white);
+    }
+
+    .process-card:hover h3 {
+      color: var(--yellow);
+    }
+
+    .process-card:hover p {
+      color: #b9b9b9;
     }
 
     .process-card-num {
@@ -1091,15 +1131,88 @@
       }
 
       #hero {
-        padding: 120px 24px 80px;
+        padding: 24px 24px 80px;
+        align-items: center;
       }
 
       .win-ghost {
         display: none;
       }
 
+      #macHeroWindow {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        left: auto !important;
+        transform: none !important;
+        width: min(100%, 360px) !important;
+        margin: 0 auto 32px !important;
+        opacity: 1 !important;
+        animation: none !important;
+        z-index: 3;
+      }
+
+      #macHeroInner {
+        width: 100%;
+      }
+
+      #macHeroWindow .mac-btn-group {
+        padding: 10px 12px !important;
+      }
+
+      #macHeroWindow .mac-btn-group>span {
+        min-width: 0;
+        flex: 1;
+        font-size: 10px !important;
+        letter-spacing: 1px !important;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+
+      #macHeroBody {
+        padding: 14px 16px !important;
+        font-size: 11px !important;
+        line-height: 1.6 !important;
+        overflow-wrap: anywhere;
+        word-break: break-word;
+      }
+
+      #heroCursor {
+        width: 7px !important;
+        height: 12px !important;
+      }
+
       .hero-meta {
         grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-terminal-header,
+      .hero-prompt,
+      .hero-title,
+      .hero-meta {
+        width: 100%;
+        max-width: 360px;
+      }
+
+      .hero-title {
+        font-size: clamp(42px, 16vw, 64px);
+        line-height: 0.95;
+        margin-bottom: 32px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .status-bar {
+        gap: 12px;
+      }
+
+      .status-stack {
+        flex: 1 1 auto;
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
 
       .section {
@@ -1118,6 +1231,9 @@
 
       .about-right {
         padding: 80px 24px;
+        transform: none;
+        box-shadow: none;
+        border: none;
       }
 
       .project-item {
@@ -1131,6 +1247,9 @@
 
       .process-grid {
         grid-template-columns: 1fr;
+        transform: none;
+        box-shadow: none;
+        border: none;
       }
 
       footer {
@@ -1152,7 +1271,8 @@
     <a href="#" class="nav-logo">Chenghong Meng</a>
     <ul class="nav-links">
       <li><a href="#about">About</a></li>
-      <li><a href="#work">Work</a></li>
+      <li><a href="#work">Projects</a></li>
+      <li><a href="#process">Attitude</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
@@ -1160,7 +1280,7 @@
   <div class="status-bar">
     <div class="status-item"><span class="status-dot"></span>SYSTEM_ONLINE</div>
     <span class="status-sep">|</span>
-    <div class="status-item">STACK: Laravel · React · MySql · LLM · Python</div>
+    <div class="status-item status-stack">STACK: Laravel · React · MySql · LLM · Python</div>
     <span class="status-sep">|</span>
     <div class="status-item">STATUS:
       <span class="meta-value green" style="animation: blink 2s step-end infinite;">Available</span>
@@ -1341,7 +1461,7 @@
   <!-- WORK -->
   <section id="work" class="section">
     <div class="section-header reveal"><span class="section-num">02</span><span class="section-line"></span><span
-        class="section-label">Work</span></div>
+        class="section-label">Projects</span></div>
     <h2 class="section-heading reveal">Selected<br>Projects.</h2>
     <div class="project-item reveal">
       <span class="proj-num">01</span>
@@ -1439,14 +1559,14 @@
         class="section-label">Contact</span></div>
     <h2 class="contact-heading reveal">Let's build<br><span>something.</span></h2>
     <div class="contact-grid reveal">
-      <a href="#" class="contact-link">✉ mengchh01@gmail.com</a>
-      <a href="https://github.com/chenghongm" class="contact-link">⌥ GitHub</a>
+      <a href="#" class="contact-link"> mengchh01@gmail.com</a>
+      <a href="https://github.com/chenghongm" class="contact-link" target="_blank">⌥ GitHub</a>
       <a href="#" class="contact-link">→ LinkedIn</a>
     </div>
   </section>
 
   <footer>
-    <span>Chenghong Meng — Full-Stack Developer</span>
+    <span>Chenghong Meng — Full-Stack Developer - San Francisco, CA</span>
     <div>
 
       <div class="easter-trigger" id="easterTrigger">
