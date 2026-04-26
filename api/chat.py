@@ -73,11 +73,27 @@ class handler(BaseHTTPRequestHandler):
             #             'messages': data.get('messages', []),
             #         }
             #     )
+            # 提取 Gemini 的核心文本
+            answer_text = response['candidates'][0]['content']['parts'][0]['text']
+            
+            # 构造一个“假”的 Claude 响应格式
+            fake_claude_payload = {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": answer_text
+                    }
+                ],
+                "id": response.get("responseId", "fake_id"),
+                "model": "gemini-3-flash-preview", # 或者是你用的版本
+                "role": "assistant"
+            }
             self.send_response(response.status_code)
             self._send_cors_headers()
             self.send_header('Content-Type', 'application/json')
             self.end_headers()
-            self.wfile.write(response.content)
+            # self.wfile.write(response.content)
+            self.wfile.write(json.dumps(fake_claude_payload).encode())
 
         except Exception as e:
             self._respond(500, {'error': str(e)})
