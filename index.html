@@ -1026,6 +1026,7 @@
 
     #termInput {
       flex: 1;
+      min-width: 0;
       background: none;
       border: none;
       outline: none;
@@ -1044,6 +1045,9 @@
       letter-spacing: 1px;
       color: var(--dim2);
       flex-shrink: 0;
+      min-width: 58px;
+      text-align: right;
+      white-space: nowrap;
     }
 
     /* MINIMIZED BAR */
@@ -1342,11 +1346,29 @@
         height: 90vh;
       }
 
+      .term-input-row {
+        padding: 12px 14px;
+        gap: 8px;
+      }
+
+      .term-prompt-label,
+      #termInput {
+        font-size: 12px;
+      }
+
+      .term-send-hint {
+        min-width: 46px;
+        font-size: 12px;
+        letter-spacing: 0;
+      }
+
       #terminalOverlay.collapsed #terminalWindow {
         top: 76px;
-        right: 24px;
+        right: auto;
+        left: 50%;
         width: min(calc(100vw - 48px), 360px) !important;
         height: auto !important;
+        transform: translateX(-50%);
       }
     }
   </style>
@@ -1856,10 +1878,6 @@ Direct. Systems-oriented. Thinks in incentives and design decisions. Enjoys reve
     function handleTerminalScrollIntent(deltaY) {
       if (deltaY > 0) {
         minimizeTerminalFromScroll();
-        return;
-      }
-      if (deltaY < 0 && overlay.classList.contains('collapsed')) {
-        openTerminal();
       }
     }
 
